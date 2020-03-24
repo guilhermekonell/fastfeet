@@ -14,7 +14,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
 
-  margin: 50px;
+  margin: 200px;
 
   svg {
     animation: ${rotate} 2s linear infinite;

@@ -25,6 +25,7 @@ export const Content = styled.table`
     }
 
     &:last-child {
+      width: 120px;
       text-align: right;
       border-bottom-right-radius: 4px;
       border-top-right-radius: 4px;

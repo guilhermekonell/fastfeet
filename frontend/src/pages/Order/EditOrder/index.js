@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Form } from '@unform/web';
-import { MdCheck, MdChevronLeft } from 'react-icons/md';
 import { toast } from 'react-toastify';
+
 import AsyncSelectInput from '~/components/Form/AsyncSelectInput';
 import Input from '~/components/Form/Input';
+import Header from '~/components/Form/Header';
 
 import api from '~/services/api';
 import history from '~/services/history';
@@ -92,23 +93,7 @@ export default function EditOrder({ location }) {
   return (
     <Container>
       <Form initialData={initialData} ref={formRef} onSubmit={handleUpdate}>
-        <header>
-          <strong>Edição de encomendas</strong>
-          <div>
-            <button type="button" onClick={() => history.push('/order')}>
-              <div>
-                <MdChevronLeft size={22} />
-                <span>VOLTAR</span>
-              </div>
-            </button>
-            <button type="submit">
-              <div>
-                <MdCheck size={22} />
-                <span>SALVAR</span>
-              </div>
-            </button>
-          </div>
-        </header>
+        <Header title="encomendas" path="order" />
 
         <Content>
           <div>

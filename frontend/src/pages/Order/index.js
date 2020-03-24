@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
+
 import {
-  MdAdd,
-  MdSearch,
   MdEdit,
   MdDelete,
   MdVisibility,
   MdChevronLeft,
   MdChevronRight,
 } from 'react-icons/md';
+
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+
 import Modal from '~/components/Modal';
 import Loading from '~/components/Loading';
-import history from '~/services/history';
-
+import HeaderPage from '~/components/HeaderPage';
 import MenuModal from '~/components/MenuModal';
 import Table from '~/components/Table';
 import Status from '~/components/Status';
@@ -28,6 +28,7 @@ import {
 } from './styles';
 
 import api from '~/services/api';
+import history from '~/services/history';
 
 export default function Order() {
   const [orders, setOrders] = useState([]);
@@ -87,23 +88,11 @@ export default function Order() {
 
   return (
     <Container>
-      <strong>Gerenciando encomendas</strong>
-      <header>
-        <div>
-          <MdSearch size={22} color="#ccc" />
-          <input
-            type="text"
-            placeholder="Buscar por encomendas"
-            onChange={e => setProduct(e.target.value)}
-          />
-        </div>
-        <button type="button" onClick={handleNew}>
-          <div>
-            <MdAdd size={22} />
-            <span>CADASTRAR</span>
-          </div>
-        </button>
-      </header>
+      <HeaderPage
+        title="encomendas"
+        setState={setProduct}
+        handleNew={handleNew}
+      />
 
       {loading ? (
         <Loading />
