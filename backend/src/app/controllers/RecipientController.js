@@ -4,10 +4,10 @@ import Recipient from '../models/Recipient';
 
 class RecipientController {
   async index(req, res) {
-    const { q: name = '%' } = req.query;
+    const { q: name, page = 1 } = req.query;
 
-    const recipients = await Recipient.findAll({
-      where: { name: { [Op.like]: name } },
+    const findOptions = {
+      order: [['id', 'ASC']],
       attributes: [
         'id',
         'name',
@@ -19,7 +19,18 @@ class RecipientController {
         'neighborhood',
         'zip_code',
       ],
-    });
+    };
+
+    const recipients = name
+      ? await Recipient.findAll({
+          where: { name: { [Op.like]: name } },
+          ...findOptions,
+        })
+      : await Recipient.findAll({
+          limit: 5,
+          offset: (page - 1) * 5,
+          ...findOptions,
+        });
 
     return res.json(recipients);
   }

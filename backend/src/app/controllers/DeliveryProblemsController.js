@@ -10,7 +10,10 @@ import Queue from '../../lib/Queue';
 
 class DeliveryProblemsController {
   async index(req, res) {
-    const problems = await Order.findAll({
+    const { page = 1 } = req.params;
+
+    const findOptions = {
+      order: [['id', 'ASC']],
       include: [
         {
           where: { [Op.not]: { description: null } },
@@ -18,6 +21,12 @@ class DeliveryProblemsController {
           association: 'problems',
         },
       ],
+    };
+
+    const problems = await Order.findAll({
+      limit: 5,
+      offset: (page - 1) * 5,
+      ...findOptions,
     });
 
     return res.json(problems);
@@ -26,6 +35,7 @@ class DeliveryProblemsController {
   async indexProblem(req, res) {
     const order = await Order.findAll({
       where: { id: req.params.id },
+      order: [['id', 'ASC']],
       include: [
         {
           attributes: ['id', 'description'],

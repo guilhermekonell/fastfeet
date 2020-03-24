@@ -5,10 +5,10 @@ import File from '../models/File';
 
 class DeliverymanController {
   async index(req, res) {
-    const { q: name = '%' } = req.query;
+    const { q: name, page = 1 } = req.query;
 
-    const deliverymans = await Deliveryman.findAll({
-      where: { name: { [Op.like]: name } },
+    const findOptions = {
+      order: [['id', 'ASC']],
       attributes: ['id', 'name', 'email', 'avatar_id'],
       include: [
         {
@@ -17,7 +17,18 @@ class DeliverymanController {
           attributes: ['name', 'path', 'url'],
         },
       ],
-    });
+    };
+
+    const deliverymans = name
+      ? await Deliveryman.findAll({
+          where: { name: { [Op.like]: name } },
+          ...findOptions,
+        })
+      : await Deliveryman.findAll({
+          limit: 5,
+          offset: (page - 1) * 5,
+          ...findOptions,
+        });
 
     return res.json(deliverymans);
   }
