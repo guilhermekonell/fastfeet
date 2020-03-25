@@ -21,7 +21,7 @@ class DeliverymanController {
 
     const deliverymans = name
       ? await Deliveryman.findAll({
-          where: { name: { [Op.like]: name } },
+          where: { name: { [Op.like]: `%${name}%` } },
           ...findOptions,
         })
       : await Deliveryman.findAll({

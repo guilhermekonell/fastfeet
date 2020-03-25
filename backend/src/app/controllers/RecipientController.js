@@ -23,7 +23,7 @@ class RecipientController {
 
     const recipients = name
       ? await Recipient.findAll({
-          where: { name: { [Op.like]: name } },
+          where: { name: { [Op.like]: `%${name}%` } },
           ...findOptions,
         })
       : await Recipient.findAll({

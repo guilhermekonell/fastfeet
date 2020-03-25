@@ -61,7 +61,7 @@ class OrderController {
 
     const orders = productName
       ? await Order.findAll({
-          where: { product: { [Op.like]: productName } },
+          where: { product: { [Op.like]: `%${productName}%` } },
           ...findOptions,
         })
       : await Order.findAll({
