@@ -125,6 +125,14 @@ class RecipientController {
       zip_code,
     });
   }
+
+  async delete(req, res) {
+    const recipient = await Recipient.findByPk(req.params.id);
+
+    await recipient.destroy();
+
+    return res.json();
+  }
 }
 
 export default new RecipientController();
