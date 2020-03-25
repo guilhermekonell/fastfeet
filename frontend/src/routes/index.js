@@ -9,10 +9,14 @@ import NewOrder from '../pages/Order/NewOrder';
 import EditOrder from '../pages/Order/EditOrder';
 
 import Deliveryman from '../pages/Deliveryman';
+import NewDeliveryman from '../pages/Deliveryman/NewDeliveryman';
 import EditDeliveryman from '../pages/Deliveryman/EditDeliveryman';
 
-import Problem from '../pages/Problem';
 import Recipient from '../pages/Recipient';
+import NewRecipient from '../pages/Recipient/NewRecipient';
+import EditRecipient from '../pages/Recipient/EditRecipient';
+
+import Problem from '../pages/Problem';
 
 export default function Routes() {
   return (
@@ -24,11 +28,14 @@ export default function Routes() {
       <Route path="/order/edit" component={EditOrder} isPrivate />
 
       <Route path="/deliveryman" exact component={Deliveryman} isPrivate />
+      <Route path="/deliveryman/new" component={NewDeliveryman} isPrivate />
       <Route path="/deliveryman/edit" component={EditDeliveryman} isPrivate />
 
-      <Route path="/problem" exact component={Problem} isPrivate />
-
       <Route path="/recipient" exact component={Recipient} isPrivate />
+      <Route path="/recipient/new" component={NewRecipient} isPrivate />
+      <Route path="/recipient/edit" component={EditRecipient} isPrivate />
+
+      <Route path="/problem" exact component={Problem} isPrivate />
     </Switch>
   );
 }

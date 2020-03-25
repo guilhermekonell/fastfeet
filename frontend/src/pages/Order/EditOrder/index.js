@@ -93,7 +93,7 @@ export default function EditOrder({ location }) {
   return (
     <Container>
       <Form initialData={initialData} ref={formRef} onSubmit={handleUpdate}>
-        <Header title="encomendas" path="order" />
+        <Header title="Edição de encomendas" path="order" />
 
         <Content>
           <div>

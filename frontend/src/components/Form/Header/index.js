@@ -11,7 +11,7 @@ export default function Header({ title, path }) {
   return (
     <Container>
       <header>
-        <strong>Edição de {title}</strong>
+        <strong>{title}</strong>
         <div>
           <button type="button" onClick={() => history.push(`/${path}`)}>
             <div>

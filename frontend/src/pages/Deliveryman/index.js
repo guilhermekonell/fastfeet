@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import Table from '~/components/Table';
 import HeaderPage from '~/components/HeaderPage';
 import MenuModal from '~/components/MenuModal';
+import Pagination from '~/components/Pagination';
 
 import { Container } from './styles';
 
@@ -16,10 +17,11 @@ import history from '~/services/history';
 export default function Deliveryman() {
   const [deliverymans, setDeliverymans] = useState([]);
   const [deliveryman, setDeliveryman] = useState('');
+  const [page, setPage] = useState(1);
 
   async function loadDeliverymans(deliverymanName) {
     const response = await api.get('deliverymans', {
-      params: deliverymanName ? { q: deliverymanName } : {},
+      params: deliverymanName ? { q: deliverymanName } : { page },
     });
 
     setDeliverymans(response.data);
@@ -27,7 +29,8 @@ export default function Deliveryman() {
 
   useEffect(() => {
     loadDeliverymans(deliveryman);
-  }, [deliveryman]);
+    // eslint-disable-next-line
+  }, [deliveryman, page]);
 
   function handleNew() {
     history.push('/deliveryman/new');
@@ -100,7 +103,7 @@ export default function Deliveryman() {
                           'Você tem certeza que deseja deletar este entregador?'
                         )
                       )
-                        handleDelete(deliveryman.id);
+                        handleDelete(deliv.id);
                     }}
                   >
                     <MdDelete color="#DE3B3B" size={12} />
@@ -112,6 +115,11 @@ export default function Deliveryman() {
           ))}
         </tbody>
       </Table>
+      <Pagination
+        page={page}
+        setPage={setPage}
+        disabled={deliverymans.length < 5}
+      />
     </Container>
   );
 }

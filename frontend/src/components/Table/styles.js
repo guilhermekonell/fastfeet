@@ -18,6 +18,7 @@ export const Content = styled.table`
   tbody td {
     background: #fff;
     padding: 5px 10px;
+    height: 40px;
 
     &:first-child {
       border-top-left-radius: 4px;

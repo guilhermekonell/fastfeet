@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as Yup from 'yup';
 import { Form } from '@unform/web';
-import { MdCheck, MdChevronLeft } from 'react-icons/md';
 import { toast } from 'react-toastify';
+
 import AsyncSelectInput from '~/components/Form/AsyncSelectInput';
 import Input from '~/components/Form/Input';
+import Header from '~/components/Form/Header';
 
 import api from '~/services/api';
 import history from '~/services/history';
@@ -81,23 +82,7 @@ export default function NewOrder() {
   return (
     <Container>
       <Form ref={formRef} onSubmit={handleSubmit}>
-        <header>
-          <strong>Cadastro de encomendas</strong>
-          <div>
-            <button type="button" onClick={() => history.push('/order')}>
-              <div>
-                <MdChevronLeft size={22} />
-                <span>VOLTAR</span>
-              </div>
-            </button>
-            <button type="submit">
-              <div>
-                <MdCheck size={22} />
-                <span>SALVAR</span>
-              </div>
-            </button>
-          </div>
-        </header>
+        <Header title="Cadastro de encomendas" path="order" />
 
         <Content>
           <div>
