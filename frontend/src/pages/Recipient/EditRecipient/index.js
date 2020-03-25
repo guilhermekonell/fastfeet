@@ -130,7 +130,7 @@ export default function EditRecipient({ location }) {
             </Field>
             <Field>
               <strong>CEP</strong>
-              <Input name="zip_code" placeholder="CEP" />
+              <Input mask="99.999-999" name="zip_code" placeholder="CEP" />
             </Field>
           </div>
         </Content>
