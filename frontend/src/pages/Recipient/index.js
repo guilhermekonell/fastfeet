@@ -49,7 +49,7 @@ export default function Recipient() {
 
   async function handleDelete(id) {
     try {
-      await api.delete(`/recipient/${id}`);
+      await api.delete(`/recipients/${id}`);
       loadRecipients(recipient);
       toast.warn('Destinatário deletado com sucesso');
     } catch (error) {
