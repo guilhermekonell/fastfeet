@@ -31,8 +31,6 @@ export default function Order() {
       params: productName ? { q: productName } : { page },
     });
 
-    console.tron.log(response.data);
-
     const data = response.data.map(order => ({
       ...order,
       start_date_formatted: order.start_date
