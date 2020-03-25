@@ -4,6 +4,7 @@ import { MdEdit, MdDelete } from 'react-icons/md';
 
 import { toast } from 'react-toastify';
 
+import Loading from '~/components/Loading';
 import Table from '~/components/Table';
 import HeaderPage from '~/components/HeaderPage';
 import MenuModal from '~/components/MenuModal';
@@ -18,13 +19,16 @@ export default function Deliveryman() {
   const [deliverymans, setDeliverymans] = useState([]);
   const [deliveryman, setDeliveryman] = useState('');
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   async function loadDeliverymans(deliverymanName) {
+    setLoading(true);
     const response = await api.get('deliverymans', {
       params: deliverymanName ? { q: deliverymanName } : { page },
     });
 
     setDeliverymans(response.data);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -61,65 +65,74 @@ export default function Deliveryman() {
         handleNew={handleNew}
       />
 
-      <Table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Foto</th>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {deliverymans.map(deliv => (
+      {loading ? (
+        <Loading />
+      ) : (
+        <Table noResults={deliverymans.length === 0}>
+          <thead>
             <tr>
-              <td>#{deliv.id}</td>
-              <td>
-                <main>
-                  <img
-                    src={
-                      deliv.avatar
-                        ? deliv.avatar.url
-                        : 'https://medgoldresources.com/wp-content/uploads/2018/02/avatar-placeholder.gif'
-                    }
-                    alt={deliv.name}
-                  />
-                </main>
-              </td>
-              <td>{deliv.name}</td>
-              <td>{deliv.email}</td>
-              <td>
-                <MenuModal>
-                  <button type="button" onClick={() => handleEdit(deliv)}>
-                    <MdEdit color="#4D85EE" size={12} />
-                    Editar
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (
-                        window.confirm(
-                          'Você tem certeza que deseja deletar este entregador?'
-                        )
-                      )
-                        handleDelete(deliv.id);
-                    }}
-                  >
-                    <MdDelete color="#DE3B3B" size={12} />
-                    Excluir
-                  </button>
-                </MenuModal>
-              </td>
+              <th>ID</th>
+              <th>Foto</th>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Ações</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-      <Pagination
-        page={page}
-        setPage={setPage}
-        disabled={deliverymans.length < 5}
-      />
+          </thead>
+          <tbody>
+            {deliverymans.map(deliv => (
+              <tr>
+                <td>#{deliv.id}</td>
+                <td>
+                  <main>
+                    <img
+                      src={
+                        deliv.avatar
+                          ? deliv.avatar.url
+                          : 'https://medgoldresources.com/wp-content/uploads/2018/02/avatar-placeholder.gif'
+                      }
+                      alt={deliv.name}
+                    />
+                  </main>
+                </td>
+                <td>{deliv.name}</td>
+                <td>{deliv.email}</td>
+                <td>
+                  <MenuModal>
+                    <button type="button" onClick={() => handleEdit(deliv)}>
+                      <MdEdit color="#4D85EE" size={12} />
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (
+                          window.confirm(
+                            'Você tem certeza que deseja deletar este entregador?'
+                          )
+                        )
+                          handleDelete(deliv.id);
+                      }}
+                    >
+                      <MdDelete color="#DE3B3B" size={12} />
+                      Excluir
+                    </button>
+                  </MenuModal>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
+      {loading ? (
+        <></>
+      ) : (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          disabled={deliverymans.length < 5}
+          noResults={deliverymans.length === 0}
+        />
+      )}
     </Container>
   );
 }

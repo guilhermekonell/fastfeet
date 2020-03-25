@@ -1,7 +1,19 @@
 import styled from 'styled-components';
 
+export const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  strong {
+    margin: 50px;
+    font-size: 18px;
+  }
+`;
+
 export const Content = styled.table`
   width: 100%;
+  max-width: 1024px;
   border-spacing: 0 20px;
 
   thead th {
@@ -18,7 +30,14 @@ export const Content = styled.table`
   tbody td {
     background: #fff;
     padding: 5px 10px;
+    max-width: 400px;
     height: 40px;
+
+    > p {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     &:first-child {
       border-top-left-radius: 4px;

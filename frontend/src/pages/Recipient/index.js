@@ -4,6 +4,7 @@ import { MdEdit, MdDelete } from 'react-icons/md';
 
 import { toast } from 'react-toastify';
 
+import Loading from '~/components/Loading';
 import HeaderPage from '~/components/HeaderPage';
 import Table from '~/components/Table';
 import MenuModal from '~/components/MenuModal';
@@ -18,13 +19,16 @@ export default function Recipient() {
   const [recipients, setRecipients] = useState([]);
   const [recipient, setRecipient] = useState('');
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   async function loadRecipients(recipientName) {
+    setLoading(true);
     const response = await api.get('recipients', {
       params: recipientName ? { q: recipientName } : { page },
     });
 
     setRecipients(response.data);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -61,54 +65,63 @@ export default function Recipient() {
         handleNew={handleNew}
       />
 
-      <Table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Endereço</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {recipients.map(recip => (
+      {loading ? (
+        <Loading />
+      ) : (
+        <Table noResults={recipients.length === 0}>
+          <thead>
             <tr>
-              <td>#{recip.id}</td>
-              <td>{recip.name}</td>
-              <td>
-                {`${recip.street}, ${recip.street_number}, ${recip.city} - ${recip.state}`}
-              </td>
-              <td>
-                <MenuModal>
-                  <button type="button" onClick={() => handleEdit(recip)}>
-                    <MdEdit color="#4D85EE" size={12} />
-                    Editar
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (
-                        window.confirm(
-                          'Você tem certeza que deseja deletar este destinatário?'
-                        )
-                      )
-                        handleDelete(recip.id);
-                    }}
-                  >
-                    <MdDelete color="#DE3B3B" size={12} />
-                    Excluir
-                  </button>
-                </MenuModal>
-              </td>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Endereço</th>
+              <th>Ações</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-      <Pagination
-        page={page}
-        setPage={setPage}
-        disabled={recipients.length < 5}
-      />
+          </thead>
+          <tbody>
+            {recipients.map(recip => (
+              <tr>
+                <td>#{recip.id}</td>
+                <td>{recip.name}</td>
+                <td>
+                  {`${recip.street}, ${recip.street_number}, ${recip.city} - ${recip.state}`}
+                </td>
+                <td>
+                  <MenuModal>
+                    <button type="button" onClick={() => handleEdit(recip)}>
+                      <MdEdit color="#4D85EE" size={12} />
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (
+                          window.confirm(
+                            'Você tem certeza que deseja deletar este destinatário?'
+                          )
+                        )
+                          handleDelete(recip.id);
+                      }}
+                    >
+                      <MdDelete color="#DE3B3B" size={12} />
+                      Excluir
+                    </button>
+                  </MenuModal>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
+      {loading ? (
+        <></>
+      ) : (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          disabled={recipients.length < 5}
+          noResults={recipients.length === 0}
+        />
+      )}
     </Container>
   );
 }

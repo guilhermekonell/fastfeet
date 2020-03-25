@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import {
-  MdEdit,
-  MdDelete,
-  MdVisibility,
-  MdChevronLeft,
-  MdChevronRight,
-} from 'react-icons/md';
+import { MdEdit, MdDelete, MdVisibility } from 'react-icons/md';
 
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
@@ -18,14 +12,9 @@ import HeaderPage from '~/components/HeaderPage';
 import MenuModal from '~/components/MenuModal';
 import Table from '~/components/Table';
 import Status from '~/components/Status';
+import Pagination from '~/components/Pagination';
 
-import {
-  Container,
-  RecipientInfo,
-  DateInfo,
-  Signature,
-  Pagination,
-} from './styles';
+import { Container, RecipientInfo, DateInfo, Signature } from './styles';
 
 import api from '~/services/api';
 import history from '~/services/history';
@@ -41,6 +30,8 @@ export default function Order() {
     const response = await api.get('/orders', {
       params: productName ? { q: productName } : { page },
     });
+
+    console.tron.log(response.data);
 
     const data = response.data.map(order => ({
       ...order,
@@ -97,7 +88,7 @@ export default function Order() {
       {loading ? (
         <Loading />
       ) : (
-        <Table>
+        <Table noResults={orders.length === 0}>
           <thead>
             <tr>
               <th>ID</th>
@@ -199,25 +190,12 @@ export default function Order() {
       {loading ? (
         <></>
       ) : (
-        <Pagination>
-          <button
-            type="button"
-            onClick={() => setPage(page - 1)}
-            disabled={page === 1}
-          >
-            <MdChevronLeft color="#333" size={26} />
-            <strong>Voltar</strong>
-          </button>
-          <strong>{page}</strong>
-          <button
-            type="button"
-            onClick={() => setPage(page + 1)}
-            disabled={orders.length < 5}
-          >
-            <strong>Próximo</strong>
-            <MdChevronRight color="#333" size={26} />
-          </button>
-        </Pagination>
+        <Pagination
+          page={page}
+          setPage={setPage}
+          disabled={orders.length < 5}
+          noResults={orders.length === 0}
+        />
       )}
     </Container>
   );

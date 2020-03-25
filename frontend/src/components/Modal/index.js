@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Content, StyledPopup } from './styles';
+import { Content, StyledPopup, Scroll } from './styles';
 
 export default function Modal({ trigger, children, ...rest }) {
   return (
     <StyledPopup trigger={trigger} modal {...rest}>
-      <Content>{children}</Content>
+      <Scroll>
+        <Content>{children}</Content>
+      </Scroll>
     </StyledPopup>
   );
 }
