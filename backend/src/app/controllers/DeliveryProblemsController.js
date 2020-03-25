@@ -11,7 +11,7 @@ import Queue from '../../lib/Queue';
 
 class DeliveryProblemsController {
   async index(req, res) {
-    const { page = 1 } = req.params;
+    const { q: productName, page = 1 } = req.params;
 
     const findOptions = {
       order: [['id', 'ASC']],
@@ -55,11 +55,16 @@ class DeliveryProblemsController {
       ],
     };
 
-    const problems = await Order.findAll({
-      limit: 5,
-      offset: (page - 1) * 5,
-      ...findOptions,
-    });
+    const problems = productName
+      ? await Order.findAll({
+          where: { product: { [Op.like]: productName } },
+          ...findOptions,
+        })
+      : await Order.findAll({
+          limit: 5,
+          offset: (page - 1) * 5,
+          ...findOptions,
+        });
 
     return res.json(problems);
   }
