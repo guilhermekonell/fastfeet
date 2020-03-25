@@ -4,6 +4,7 @@ import DeliveryProblem from '../models/DeliveryProblem';
 import Deliveryman from '../models/Deliveryman';
 import Recipient from '../models/Recipient';
 import Order from '../models/Order';
+import File from '../models/File';
 
 import CancellationMail from '../jobs/CancellationMail';
 import Queue from '../../lib/Queue';
@@ -15,6 +16,37 @@ class DeliveryProblemsController {
     const findOptions = {
       order: [['id', 'ASC']],
       include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: [
+            'name',
+            'street',
+            'street_number',
+            'complement',
+            'state',
+            'city',
+            'neighborhood',
+            'zip_code',
+          ],
+        },
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['id', 'name', 'email', 'avatar_id'],
+          include: [
+            {
+              model: File,
+              as: 'avatar',
+              attributes: ['name', 'path', 'url'],
+            },
+          ],
+        },
+        {
+          model: File,
+          as: 'signature',
+          attributes: ['name', 'path', 'url'],
+        },
         {
           where: { [Op.not]: { description: null } },
           attributes: ['id', 'description'],
