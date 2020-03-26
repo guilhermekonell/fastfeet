@@ -20,7 +20,7 @@ export const Content = styled.table`
     color: #333;
     text-align: left;
     font-size: 16px;
-    padding: 5px 10px;
+    padding: 0 10px;
 
     &:last-child {
       text-align: right;

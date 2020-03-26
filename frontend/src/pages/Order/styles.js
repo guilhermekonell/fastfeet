@@ -5,6 +5,25 @@ export const Container = styled.div`
   margin: 50px auto;
 `;
 
+export const Filter = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 15px 10px 0;
+
+  label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    span {
+      font-weight: bold;
+      font-size: 14px;
+      margin-left: 5px;
+    }
+  }
+`;
+
 export const RecipientInfo = styled.div`
   display: flex;
   flex-direction: column;

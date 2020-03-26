@@ -14,7 +14,13 @@ import Table from '~/components/Table';
 import Status from '~/components/Status';
 import Pagination from '~/components/Pagination';
 
-import { Container, RecipientInfo, DateInfo, Signature } from './styles';
+import {
+  Container,
+  RecipientInfo,
+  DateInfo,
+  Signature,
+  Filter,
+} from './styles';
 
 import api from '~/services/api';
 import history from '~/services/history';
@@ -24,13 +30,9 @@ export default function Order() {
   const [product, setProduct] = useState('');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [filterProblems, setFilterProblems] = useState(false);
 
-  async function loadOrders(productName) {
-    setLoading(true);
-    const response = await api.get('/orders', {
-      params: productName ? { q: productName } : { page },
-    });
-
+  function formatDates(response) {
     const data = response.data.map(order => ({
       ...order,
       start_date_formatted: order.start_date
@@ -45,14 +47,27 @@ export default function Order() {
         : null,
     }));
 
+    return data;
+  }
+
+  async function loadOrders() {
+    setLoading(true);
+    const route = filterProblems ? '/delivery/problems' : '/orders';
+
+    const response = await api.get(route, {
+      params: product ? { q: product } : { page },
+    });
+
+    const data = formatDates(response);
+
     setOrders(data);
     setLoading(false);
   }
 
   useEffect(() => {
-    loadOrders(product);
+    loadOrders();
     // eslint-disable-next-line
-  }, [product, page]);
+  }, [product, page, filterProblems]);
 
   function handleNew() {
     history.push('/order/new');
@@ -68,7 +83,7 @@ export default function Order() {
   async function handleDelete(id) {
     try {
       await api.delete(`/orders/${id}`);
-      loadOrders(product);
+      loadOrders();
       toast.warn('Encomenda deletada com sucesso');
     } catch (error) {
       toast.error(error.response.data.error);
@@ -82,6 +97,19 @@ export default function Order() {
         setState={setProduct}
         handleNew={handleNew}
       />
+
+      <Filter>
+        <label htmlFor="checkbox">
+          <input
+            type="checkbox"
+            id="checkbox"
+            name="filterProblems"
+            checked={filterProblems}
+            onClick={() => setFilterProblems(!filterProblems)}
+          />
+          <span>Mostrar somente pedidos com problemas</span>
+        </label>
+      </Filter>
 
       {loading ? (
         <Loading />

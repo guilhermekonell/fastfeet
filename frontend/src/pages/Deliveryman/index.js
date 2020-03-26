@@ -21,10 +21,10 @@ export default function Deliveryman() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  async function loadDeliverymans(deliverymanName) {
+  async function loadDeliverymans() {
     setLoading(true);
     const response = await api.get('deliverymans', {
-      params: deliverymanName ? { q: deliverymanName } : { page },
+      params: deliveryman ? { q: deliveryman } : { page },
     });
 
     setDeliverymans(response.data);
@@ -32,7 +32,7 @@ export default function Deliveryman() {
   }
 
   useEffect(() => {
-    loadDeliverymans(deliveryman);
+    loadDeliverymans();
     // eslint-disable-next-line
   }, [deliveryman, page]);
 
@@ -50,7 +50,7 @@ export default function Deliveryman() {
   async function handleDelete(id) {
     try {
       await api.delete(`/deliverymans/${id}`);
-      loadDeliverymans(deliveryman);
+      loadDeliverymans();
       toast.warn('Entregador deletado com sucesso');
     } catch (error) {
       toast.error(error.response.data.error);
