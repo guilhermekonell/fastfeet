@@ -1,11 +1,29 @@
 import * as Yup from 'yup';
 import { Op } from 'sequelize';
 import { parseISO, isAfter, isBefore, setHours } from 'date-fns';
+import Deliveryman from '../models/Deliveryman';
 import Order from '../models/Order';
 import Recipient from '../models/Recipient';
 import File from '../models/File';
 
 class DeliveryController {
+  async index(req, res) {
+    const { id } = req.params;
+
+    const deliveryman = await Deliveryman.findByPk(id, {
+      attributes: ['id', 'name', 'email', 'avatar_id'],
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['name', 'path', 'url'],
+        },
+      ],
+    });
+
+    return res.json(deliveryman);
+  }
+
   async indexPendencies(req, res) {
     const { id } = req.params;
 
