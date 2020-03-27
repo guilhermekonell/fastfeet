@@ -1,18 +1,38 @@
-import React from 'react';
-import { Text } from 'react-native';
-import Input from '~/components/Input';
-import Button from '~/components/Button';
+import React, { useState } from 'react';
+import { Image } from 'react-native';
+import { useDispatch } from 'react-redux';
 
-// import { Container } from './styles';
+import logo from '~/assets/logo.png';
+
+import { Container, Form, FormInput, SubmitButton } from './styles';
+import { signInRequest } from '~/store/modules/auth/actions';
 
 export default function SignIn() {
+  const [id, setId] = useState('');
+
+  const dispatch = useDispatch();
+
+  function handleSubmit() {
+    dispatch(signInRequest(id));
+  }
+
   return (
-    <>
-      <Text>SignIn</Text>
+    <Container>
+      <Image source={logo} color="#fff" />
 
-      <Input icon="call" palceholder="Digite seu nome" />
+      <Form>
+        <FormInput
+          autoCorrect={false}
+          autoCapitalize="none"
+          placeholder="Informe seu ID de cadastro"
+          returnKeyType="send"
+          onSubmitEditing={handleSubmit}
+          value={id}
+          onChangeText={setId}
+        />
 
-      <Button>Entrar</Button>
-    </>
+        <SubmitButton onPress={handleSubmit}>Entrar no sistema</SubmitButton>
+      </Form>
+    </Container>
   );
 }
