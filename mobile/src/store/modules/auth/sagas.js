@@ -9,9 +9,9 @@ export function* signIn({ payload }) {
   try {
     const { id } = payload;
 
-    const response = yield call(api.get, 'delivery', { params: id });
+    const response = yield call(api.get, `/delivery/${id}`);
 
-    const { deliveryman } = response.data;
+    const deliveryman = response.data;
 
     if (!deliveryman) {
       Alert.alert('Erro no login', 'Entregador não encontrado');

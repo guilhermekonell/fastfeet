@@ -36,7 +36,6 @@ target 'mobile' do
 
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
-  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
   target 'mobileTests' do
     inherit! :search_paths

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Image } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import logo from '~/assets/logo.png';
 
@@ -8,9 +8,11 @@ import { Container, Form, FormInput, SubmitButton } from './styles';
 import { signInRequest } from '~/store/modules/auth/actions';
 
 export default function SignIn() {
+  const dispatch = useDispatch();
+
   const [id, setId] = useState('');
 
-  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.auth.loading);
 
   function handleSubmit() {
     dispatch(signInRequest(id));
@@ -31,7 +33,9 @@ export default function SignIn() {
           onChangeText={setId}
         />
 
-        <SubmitButton onPress={handleSubmit}>Entrar no sistema</SubmitButton>
+        <SubmitButton loading={loading} onPress={handleSubmit}>
+          Entrar no sistema
+        </SubmitButton>
       </Form>
     </Container>
   );
