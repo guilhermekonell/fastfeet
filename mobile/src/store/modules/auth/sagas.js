@@ -19,8 +19,6 @@ export function* signIn({ payload }) {
     }
 
     yield put(signInSuccess(id));
-
-    // history.push('/order');
   } catch (err) {
     Alert.alert(
       'Erro no login',
@@ -30,9 +28,7 @@ export function* signIn({ payload }) {
   }
 }
 
-export function signOut() {
-  // history.push('/');
-}
+export function signOut() {}
 
 export default all([
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
