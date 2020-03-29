@@ -43,7 +43,7 @@ export default function DeliveryRoutes() {
       <Stack.Screen
         name="VisualizarProblema"
         options={{
-          title: 'Visualizar problema',
+          title: 'Visualizar problemas',
         }}
         component={ViewProblem}
       />

@@ -86,12 +86,20 @@ export default function Details() {
           </Dates>
         </Info>
         <Options>
-          <Option onPress={() => navigation.navigate('InformarProblema')}>
+          <Option
+            onPress={() =>
+              navigation.navigate('InformarProblema', { id: data.id })
+            }
+          >
             <Icon name="highlight-off" size={25} color="#E74040" />
             <OptionText>Informar</OptionText>
             <OptionText>Problema</OptionText>
           </Option>
-          <Option onPress={() => navigation.navigate('VisualizarProblema')}>
+          <Option
+            onPress={() =>
+              navigation.navigate('VisualizarProblema', { id: data.id })
+            }
+          >
             <Icon name="info-outline" size={25} color="#E7BA40" />
             <OptionText>Visualizar</OptionText>
             <OptionText>Problema</OptionText>
