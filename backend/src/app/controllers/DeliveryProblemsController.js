@@ -70,12 +70,10 @@ class DeliveryProblemsController {
   }
 
   async indexProblem(req, res) {
-    const order = await Order.findAll({
-      where: { id: req.params.id },
-      order: [['id', 'ASC']],
+    const order = await Order.findByPk(req.params.id, {
       include: [
         {
-          attributes: ['id', 'description'],
+          attributes: ['id', 'description', 'created_at'],
           association: 'problems',
         },
       ],

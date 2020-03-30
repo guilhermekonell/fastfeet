@@ -11,7 +11,7 @@ class DeliveryController {
     const { id } = req.params;
 
     const deliveryman = await Deliveryman.findByPk(id, {
-      attributes: ['id', 'name', 'email', 'avatar_id'],
+      attributes: ['id', 'name', 'email', 'avatar_id', 'created_at'],
       include: [
         {
           model: File,
@@ -29,7 +29,14 @@ class DeliveryController {
 
     const pendencies = await Order.findAll({
       where: { deliveryman_id: id, canceled_at: null, end_date: null },
-      attributes: ['id', 'product', 'start_date', 'recipient_id'],
+      attributes: [
+        'id',
+        'product',
+        'start_date',
+        'recipient_id',
+        'status',
+        'created_at',
+      ],
       include: [
         {
           model: Recipient,
@@ -61,7 +68,15 @@ class DeliveryController {
           [Op.not]: null,
         },
       },
-      attributes: ['id', 'product', 'start_date', 'end_date', 'recipient_id'],
+      attributes: [
+        'id',
+        'product',
+        'start_date',
+        'end_date',
+        'recipient_id',
+        'status',
+        'created_at',
+      ],
       include: [
         {
           model: Recipient,

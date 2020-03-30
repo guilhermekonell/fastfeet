@@ -30,6 +30,7 @@ routes.put(
 );
 
 routes.post('/delivery/:id/problems', DeliveryProblemsController.store);
+routes.get('/delivery/:id/problems', DeliveryProblemsController.indexProblem);
 
 routes.use(authMiddleware);
 
@@ -53,7 +54,6 @@ routes.put('/orders/:id', OrderController.update);
 routes.delete('/orders/:id', OrderController.delete);
 
 routes.get('/delivery/problems', DeliveryProblemsController.index);
-routes.get('/delivery/:id/problems', DeliveryProblemsController.indexProblem);
 routes.delete(
   '/problem/:id/cancel-delivery',
   DeliveryProblemsController.delete
