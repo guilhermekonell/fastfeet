@@ -26,9 +26,13 @@ class DeliveryController {
 
   async indexPendencies(req, res) {
     const { id } = req.params;
+    const { page = 1 } = req.query;
 
     const pendencies = await Order.findAll({
       where: { deliveryman_id: id, canceled_at: null, end_date: null },
+      order: [['id', 'ASC']],
+      limit: 5,
+      offset: (page - 1) * 5,
       attributes: [
         'id',
         'product',
@@ -60,6 +64,7 @@ class DeliveryController {
 
   async indexDeliveries(req, res) {
     const { id } = req.params;
+    const { page = 1 } = req.query;
 
     const pendencies = await Order.findAll({
       where: {
@@ -68,6 +73,9 @@ class DeliveryController {
           [Op.not]: null,
         },
       },
+      order: [['id', 'ASC']],
+      limit: 5,
+      offset: (page - 1) * 5,
       attributes: [
         'id',
         'product',
@@ -110,10 +118,6 @@ class DeliveryController {
     const { start_date } = req.body;
 
     const hourStart = parseISO(start_date);
-
-    if (isBefore(hourStart, new Date())) {
-      return res.status(400).json({ error: 'Past dates are not permitted' });
-    }
 
     const initHour = setHours(new Date(hourStart), 8);
     const finishHour = setHours(new Date(hourStart), 18);
