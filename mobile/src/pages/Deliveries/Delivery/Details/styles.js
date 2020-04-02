@@ -48,7 +48,7 @@ export const Dates = styled.View`
   justify-content: space-between;
 `;
 
-export const Date = styled.View``;
+export const DateContent = styled.View``;
 
 export const Options = styled.View`
   flex-direction: row;

@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { withNavigationFocus } from '@react-navigation/compat';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { signOut } from '~/store/modules/auth/actions';
@@ -24,45 +26,55 @@ import {
   List,
 } from './styles';
 
-export default function Deliveries() {
+// eslint-disable-next-line react/prop-types
+function Deliveries({ isFocused }) {
   const dispatch = useDispatch();
-  const id = useSelector((state) => state.user.id);
-  const [deliveries, setDeliveries] = useState([]);
-  const [deliveryman, setDeliveryman] = useState({});
-  const [pendencies, setPendencies] = useState(true);
+  const deliveryman = useSelector((state) => state.user.deliveryman);
+  const [orders, setOrders] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [selectedPage, setSelectedPage] = useState('pendencies');
 
-  async function loadDeliveries() {
-    if (pendencies) {
-      const response = await api.get(`delivery/${id}/pendencies`);
-      setDeliveries(response.data);
-    } else {
-      const response = await api.get(`delivery/${id}/deliveries`);
-      setDeliveries(response.data);
-    }
+  async function loadOrders() {
+    if (loading) return;
+
+    setLoading(true);
+
+    const response = await api.get(
+      `delivery/${deliveryman.id}/${selectedPage}`,
+      {
+        params: {
+          page,
+        },
+      }
+    );
+
+    setOrders(page >= 2 ? [...orders, ...response.data] : response.data);
+    setLoading(false);
   }
 
-  useEffect(() => {
-    async function loadDeliveryman() {
-      const response = await api.get(`delivery/${id}`);
+  async function loadMore() {
+    const nextPage = page + 1;
+    setPage(nextPage);
 
-      setDeliveryman(response.data);
-    }
-
-    loadDeliveryman();
-    loadDeliveries();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, pendencies]);
-
-  const handleSelectPendencies = useCallback(() => {
-    setPendencies(true);
-  }, [setPendencies]);
-
-  const handleSelectDeliveries = useCallback(() => {
-    setPendencies(false);
-  }, [setPendencies]);
+    loadOrders();
+  }
 
   function handleLogout() {
     dispatch(signOut());
+  }
+
+  useEffect(() => {
+    if (isFocused) {
+      loadOrders();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isFocused, selectedPage]);
+
+  function handleSelectedPage(selectPage) {
+    setPage(1);
+    setOrders([]);
+    setSelectedPage(selectPage);
   }
 
   return (
@@ -91,20 +103,32 @@ export default function Deliveries() {
       <Page>
         <PageName>Entregas</PageName>
         <Show>
-          <TouchableOpacity onPress={handleSelectPendencies}>
-            <Option selected={pendencies}>Pendentes</Option>
+          <TouchableOpacity onPress={() => handleSelectedPage('pendencies')}>
+            <Option selected={selectedPage === 'pendencies'}>Pendentes</Option>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleSelectDeliveries}>
-            <Option selected={!pendencies}>Entregues</Option>
+          <TouchableOpacity onPress={() => handleSelectedPage('deliveries')}>
+            <Option selected={selectedPage === 'deliveries'}>Entregues</Option>
           </TouchableOpacity>
         </Show>
       </Page>
 
       <List
-        data={deliveries}
+        data={orders}
+        onEndReachedThreshold={0.2}
+        onEndReached={loadMore}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <Delivery data={item} />}
       />
     </Container>
   );
 }
+
+export default withNavigationFocus(Deliveries);
+
+Deliveries.propstypes = {
+  isFocused: PropTypes.bool,
+};
+
+Deliveries.defaultProps = {
+  isFocused: false,
+};

@@ -4,7 +4,10 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import { parseISO, format } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 
+import Buttom from '~/components/Button';
 import Background from '~/components/Background';
+
+import api from '~/services/api';
 
 import {
   Container,
@@ -15,7 +18,7 @@ import {
   Detail,
   Text,
   Dates,
-  Date,
+  DateContent,
   Options,
   Option,
   OptionText,
@@ -46,6 +49,14 @@ export default function Details() {
     [data.end_date]
   );
 
+  async function handleStartDelivery() {
+    await api.put(`delivery/${data.id}/start`, {
+      start_date: new Date(),
+    });
+
+    navigation.navigate('Entregas');
+  }
+
   return (
     <Container>
       <Background />
@@ -75,41 +86,51 @@ export default function Details() {
           <Detail>STATUS</Detail>
           <Text>{data.status}</Text>
           <Dates>
-            <Date>
+            <DateContent>
               <Detail>DATA DE RETIRADA</Detail>
               <Text>{start_date || '-- / -- / --'}</Text>
-            </Date>
-            <Date>
+            </DateContent>
+            <DateContent>
               <Detail>DATA DE ENTREGA</Detail>
               <Text>{end_date || '-- / -- / --'}</Text>
-            </Date>
+            </DateContent>
           </Dates>
         </Info>
-        <Options>
-          <Option
-            onPress={() =>
-              navigation.navigate('InformarProblema', { id: data.id })
-            }
-          >
-            <Icon name="highlight-off" size={25} color="#E74040" />
-            <OptionText>Informar</OptionText>
-            <OptionText>Problema</OptionText>
-          </Option>
-          <Option
-            onPress={() =>
-              navigation.navigate('VisualizarProblema', { id: data.id })
-            }
-          >
-            <Icon name="info-outline" size={25} color="#E7BA40" />
-            <OptionText>Visualizar</OptionText>
-            <OptionText>Problema</OptionText>
-          </Option>
-          <Option onPress={() => navigation.navigate('ConfirmarEntrega')}>
-            <Icon name="check-circle" size={25} color="#7159c1" />
-            <OptionText>Confirmar</OptionText>
-            <OptionText>Entrega</OptionText>
-          </Option>
-        </Options>
+        {data.status === 'PENDENTE' ? (
+          <Buttom background="#7159c1" onPress={handleStartDelivery}>
+            Retirar encomenda
+          </Buttom>
+        ) : (
+          <Options>
+            <Option
+              onPress={() =>
+                navigation.navigate('InformarProblema', { id: data.id })
+              }
+            >
+              <Icon name="highlight-off" size={25} color="#E74040" />
+              <OptionText>Informar</OptionText>
+              <OptionText>Problema</OptionText>
+            </Option>
+            <Option
+              onPress={() =>
+                navigation.navigate('VisualizarProblema', { id: data.id })
+              }
+            >
+              <Icon name="info-outline" size={25} color="#E7BA40" />
+              <OptionText>Visualizar</OptionText>
+              <OptionText>Problema</OptionText>
+            </Option>
+            <Option
+              onPress={() =>
+                navigation.navigate('ConfirmarEntrega', { id: data.id })
+              }
+            >
+              <Icon name="check-circle" size={25} color="#7159c1" />
+              <OptionText>Confirmar</OptionText>
+              <OptionText>Entrega</OptionText>
+            </Option>
+          </Options>
+        )}
       </Content>
     </Container>
   );

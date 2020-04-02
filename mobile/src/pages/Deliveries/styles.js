@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   background: #fff;
-  padding: 30px;
+  padding: 30px 30px 0 30px;
 `;
 
 export const Header = styled.View`
@@ -69,5 +69,10 @@ export const Option = styled.Text`
 
 export const List = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
-  contentConteinerStyle: { padding: 30 },
 })``;
+
+export const Loading = styled.View`
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+`;

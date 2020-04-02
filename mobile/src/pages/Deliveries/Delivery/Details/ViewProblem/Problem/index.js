@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { parseISO, format } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 
@@ -22,3 +23,10 @@ export default function Problem({ data }) {
     </Container>
   );
 }
+
+Problem.propTypes = {
+  data: PropTypes.shape({
+    created_at: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+  }).isRequired,
+};
