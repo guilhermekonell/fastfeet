@@ -15,6 +15,7 @@ export function* signIn({ payload }) {
 
     if (!deliveryman) {
       Alert.alert('Erro no login', 'Entregador não encontrado');
+      yield put(signInFailure());
       return;
     }
 
