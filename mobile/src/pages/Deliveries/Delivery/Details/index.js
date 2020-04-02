@@ -101,35 +101,41 @@ export default function Details() {
             Retirar encomenda
           </Buttom>
         ) : (
-          <Options>
-            <Option
-              onPress={() =>
-                navigation.navigate('InformarProblema', { id: data.id })
-              }
-            >
-              <Icon name="highlight-off" size={25} color="#E74040" />
-              <OptionText>Informar</OptionText>
-              <OptionText>Problema</OptionText>
-            </Option>
-            <Option
-              onPress={() =>
-                navigation.navigate('VisualizarProblema', { id: data.id })
-              }
-            >
-              <Icon name="info-outline" size={25} color="#E7BA40" />
-              <OptionText>Visualizar</OptionText>
-              <OptionText>Problema</OptionText>
-            </Option>
-            <Option
-              onPress={() =>
-                navigation.navigate('ConfirmarEntrega', { id: data.id })
-              }
-            >
-              <Icon name="check-circle" size={25} color="#7159c1" />
-              <OptionText>Confirmar</OptionText>
-              <OptionText>Entrega</OptionText>
-            </Option>
-          </Options>
+          <>
+            {data.status !== 'ENTREGUE' ? (
+              <Options>
+                <Option
+                  onPress={() =>
+                    navigation.navigate('InformarProblema', { id: data.id })
+                  }
+                >
+                  <Icon name="highlight-off" size={25} color="#E74040" />
+                  <OptionText>Informar</OptionText>
+                  <OptionText>Problema</OptionText>
+                </Option>
+                <Option
+                  onPress={() =>
+                    navigation.navigate('VisualizarProblema', { id: data.id })
+                  }
+                >
+                  <Icon name="info-outline" size={25} color="#E7BA40" />
+                  <OptionText>Visualizar</OptionText>
+                  <OptionText>Problema</OptionText>
+                </Option>
+                <Option
+                  onPress={() =>
+                    navigation.navigate('ConfirmarEntrega', { id: data.id })
+                  }
+                >
+                  <Icon name="check-circle" size={25} color="#7159c1" />
+                  <OptionText>Confirmar</OptionText>
+                  <OptionText>Entrega</OptionText>
+                </Option>
+              </Options>
+            ) : (
+              <></>
+            )}
+          </>
         )}
       </Content>
     </Container>

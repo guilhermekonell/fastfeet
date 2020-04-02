@@ -69,10 +69,18 @@ export const Option = styled.Text`
 
 export const List = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
-})``;
+})`
+  margin-bottom: 30px;
+`;
 
 export const Loading = styled.View`
   justify-content: center;
   align-items: center;
+  margin-top: 20px;
+`;
+
+export const NoOrders = styled.Text`
+  text-align: center;
+  font-size: 16px;
   margin-top: 20px;
 `;

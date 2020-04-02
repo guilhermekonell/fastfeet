@@ -29,7 +29,6 @@ export default function ConfirmDelivery() {
       <Content>
         <Input
           placeholder="Inclua aqui o problema que ocorreu na entrega."
-          returnKeyType="send"
           onSubmitEditing={handleSubmit}
           value={problem}
           onChangeText={setProblem}

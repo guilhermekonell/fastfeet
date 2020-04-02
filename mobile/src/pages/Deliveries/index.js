@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { withNavigationFocus } from '@react-navigation/compat';
 
@@ -24,6 +24,8 @@ import {
   Show,
   Option,
   List,
+  Loading,
+  NoOrders,
 } from './styles';
 
 // eslint-disable-next-line react/prop-types
@@ -32,10 +34,13 @@ function Deliveries({ isFocused }) {
   const deliveryman = useSelector((state) => state.user.deliveryman);
   const [orders, setOrders] = useState([]);
   const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [selectedPage, setSelectedPage] = useState('pendencies');
 
-  async function loadOrders() {
+  async function loadOrders(nextPage = page) {
+    if (orders.length !== 0 && nextPage > total) return;
     if (loading) return;
 
     setLoading(true);
@@ -44,20 +49,29 @@ function Deliveries({ isFocused }) {
       `delivery/${deliveryman.id}/${selectedPage}`,
       {
         params: {
-          page,
+          page: nextPage,
         },
       }
     );
 
-    setOrders(page >= 2 ? [...orders, ...response.data] : response.data);
+    const totalItems = response.data.count;
+    setTotal(Math.ceil(totalItems / 5));
+
+    setOrders(
+      nextPage >= 2 ? [...orders, ...response.data.rows] : response.data.rows
+    );
+    setPage(nextPage);
+    setRefreshing(false);
     setLoading(false);
   }
 
-  async function loadMore() {
-    const nextPage = page + 1;
-    setPage(nextPage);
+  function loadMore() {
+    loadOrders(page + 1);
+  }
 
-    loadOrders();
+  function refreshList() {
+    setRefreshing(true);
+    loadOrders(1);
   }
 
   function handleLogout() {
@@ -66,13 +80,12 @@ function Deliveries({ isFocused }) {
 
   useEffect(() => {
     if (isFocused) {
-      loadOrders();
+      loadOrders(1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFocused, selectedPage]);
 
   function handleSelectedPage(selectPage) {
-    setPage(1);
     setOrders([]);
     setSelectedPage(selectPage);
   }
@@ -114,10 +127,24 @@ function Deliveries({ isFocused }) {
 
       <List
         data={orders}
-        onEndReachedThreshold={0.2}
-        onEndReached={loadMore}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <Delivery data={item} />}
+        onEndReachedThreshold={0.1}
+        onEndReached={() => loadMore()}
+        onRefresh={refreshList}
+        refreshing={refreshing}
+        ListFooterComponent={() => (
+          <>
+            {loading && (
+              <Loading>
+                <ActivityIndicator size="small" />
+              </Loading>
+            )}
+          </>
+        )}
+        ListEmptyComponent={() => (
+          <>{!loading && <NoOrders>Não há entregas a mostrar</NoOrders>}</>
+        )}
       />
     </Container>
   );
