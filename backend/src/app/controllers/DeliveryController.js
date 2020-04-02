@@ -28,7 +28,7 @@ class DeliveryController {
     const { id } = req.params;
     const { page = 1 } = req.query;
 
-    const pendencies = await Order.findAll({
+    const pendencies = await Order.findAndCountAll({
       where: { deliveryman_id: id, canceled_at: null, end_date: null },
       order: [['id', 'ASC']],
       limit: 5,
@@ -66,7 +66,7 @@ class DeliveryController {
     const { id } = req.params;
     const { page = 1 } = req.query;
 
-    const pendencies = await Order.findAll({
+    const pendencies = await Order.findAndCountAll({
       where: {
         deliveryman_id: id,
         end_date: {
@@ -75,7 +75,7 @@ class DeliveryController {
       },
       order: [['id', 'ASC']],
       limit: 5,
-      offset: (page - 1) * 5,
+      offset: (page - 1) * 1,
       attributes: [
         'id',
         'product',
