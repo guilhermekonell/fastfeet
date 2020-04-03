@@ -75,7 +75,7 @@ class DeliveryController {
       },
       order: [['id', 'ASC']],
       limit: 5,
-      offset: (page - 1) * 1,
+      offset: (page - 1) * 5,
       attributes: [
         'id',
         'product',
