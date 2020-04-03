@@ -21,7 +21,9 @@ export default function Problem() {
 
   async function loadProblems() {
     setLoading(true);
-    const response = await api.get('delivery/problems');
+    const response = await api.get('delivery/problems', {
+      params: { page },
+    });
 
     setProblems(response.data);
     setLoading(false);
