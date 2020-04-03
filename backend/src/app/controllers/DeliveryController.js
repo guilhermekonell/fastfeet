@@ -125,7 +125,7 @@ class DeliveryController {
     if (isBefore(hourStart, initHour) || isAfter(hourStart, finishHour)) {
       return res
         .status(400)
-        .json({ error: 'Você está fora do horário de retida de produtos' });
+        .json({ error: 'Você está fora do horário de retirada de produtos' });
     }
 
     const { count } = await Order.findAndCountAll({
