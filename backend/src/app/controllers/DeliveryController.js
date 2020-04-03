@@ -123,9 +123,9 @@ class DeliveryController {
     const finishHour = setHours(new Date(hourStart), 18);
 
     if (isBefore(hourStart, initHour) || isAfter(hourStart, finishHour)) {
-      res
+      return res
         .status(400)
-        .json({ error: 'You cannot pick up a product at this time' });
+        .json({ error: 'Você está fora do horário de retida de produtos' });
     }
 
     const { count } = await Order.findAndCountAll({
@@ -137,7 +137,7 @@ class DeliveryController {
 
     if (count === 5) {
       return res.status(400).json({
-        error: 'You have reached the maximum limit of withdrawn deliveries',
+        error: 'Você atingiu o limite máximo de entregas retiradas',
       });
     }
 
