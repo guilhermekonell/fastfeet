@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { parseISO, format } from 'date-fns';
@@ -50,11 +51,15 @@ export default function Details() {
   );
 
   async function handleStartDelivery() {
-    await api.put(`delivery/${data.id}/start`, {
-      start_date: new Date(),
-    });
+    try {
+      await api.put(`delivery/${data.id}/start`, {
+        start_date: new Date(),
+      });
 
-    navigation.navigate('Entregas');
+      navigation.navigate('Entregas');
+    } catch (error) {
+      Alert.alert('Erro', error.response.data.error);
+    }
   }
 
   return (

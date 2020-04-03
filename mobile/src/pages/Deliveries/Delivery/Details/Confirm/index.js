@@ -59,12 +59,17 @@ export default function ConfirmDelivery() {
 
       <Content>
         {image ? (
-          <CameraWrapper>
-            <Image source={{ uri: image }} style={{ height: '100%' }} />
-            <ClearButton onPress={clearPicture}>
-              <Icon name="close" color="#fff" size={30} />
-            </ClearButton>
-          </CameraWrapper>
+          <>
+            <CameraWrapper>
+              <Image source={{ uri: image }} style={{ height: '100%' }} />
+              <ClearButton onPress={clearPicture}>
+                <Icon name="close" color="#fff" size={30} />
+              </ClearButton>
+            </CameraWrapper>
+            <Button background="#7159c1" onPress={handleSubmit}>
+              Enviar
+            </Button>
+          </>
         ) : (
           <CameraWrapper>
             <Camera ref={cameraRef} type="back" captureAudio={false} />
@@ -73,10 +78,6 @@ export default function ConfirmDelivery() {
             </CameraButton>
           </CameraWrapper>
         )}
-
-        <Button background="#7159c1" onPress={handleSubmit}>
-          Enviar
-        </Button>
       </Content>
     </Container>
   );

@@ -9,11 +9,11 @@ export const Container = styled.View`
 export const Content = styled.View`
   top: -100px;
   margin: 20px;
+  justify-content: center;
 `;
 
 export const CameraWrapper = styled.View`
-  height: 85%;
-  border: 1px solid #eee;
+  height: 90%;
   border-radius: 4px;
   margin-bottom: 10px;
   background: #fff;

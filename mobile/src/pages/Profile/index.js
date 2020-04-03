@@ -32,7 +32,7 @@ export default function Profile() {
       <Avatar
         source={{
           uri: deliveryman.avatar
-            ? `http://10.0.3.2:3333/files/${deliveryman.avatar.path}`
+            ? `http://192.168.0.139:3333/files/${deliveryman.avatar.path}`
             : `https://api.adorable.io/avatar/50/${deliveryman.name}.png/`,
         }}
       />

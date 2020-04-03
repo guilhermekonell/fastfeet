@@ -20,5 +20,6 @@ export const Title = styled.Text`
 
 export const List = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
-  contentConteinerStyle: { padding: 30 },
-})``;
+})`
+  height: 90%;
+`;
