@@ -19,6 +19,8 @@ const upload = multer(multerConfig);
 routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
 
+routes.get('/delivery/problems', DeliveryProblemsController.index);
+
 routes.get('/delivery/:id', DeliveryController.index);
 routes.get('/delivery/:id/pendencies', DeliveryController.indexPendencies);
 routes.get('/delivery/:id/deliveries', DeliveryController.indexDeliveries);
@@ -53,7 +55,6 @@ routes.post('/orders', OrderController.store);
 routes.put('/orders/:id', OrderController.update);
 routes.delete('/orders/:id', OrderController.delete);
 
-routes.get('/delivery/problems', DeliveryProblemsController.index);
 routes.delete(
   '/problem/:id/cancel-delivery',
   DeliveryProblemsController.delete
