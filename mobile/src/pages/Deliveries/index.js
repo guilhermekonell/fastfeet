@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { withNavigationFocus } from '@react-navigation/compat';
+import { API_URL } from 'react-native-dotenv';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { signOut } from '~/store/modules/auth/actions';
@@ -97,7 +98,7 @@ function Deliveries({ isFocused }) {
           <Avatar
             source={{
               uri: deliveryman.avatar
-                ? `http://192.168.0.139:3333/files/${deliveryman.avatar.path}`
+                ? `${API_URL}/files/${deliveryman.avatar.path}`
                 : `https://api.adorable.io/avatar/50/${deliveryman.name}.png/`,
             }}
           />

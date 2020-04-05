@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { parseISO, format } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
+import { API_URL } from 'react-native-dotenv';
 
 import { signOut } from '~/store/modules/auth/actions';
 
@@ -32,7 +33,7 @@ export default function Profile() {
       <Avatar
         source={{
           uri: deliveryman.avatar
-            ? `http://192.168.0.139:3333/files/${deliveryman.avatar.path}`
+            ? `${API_URL}/files/${deliveryman.avatar.path}`
             : `https://api.adorable.io/avatar/50/${deliveryman.name}.png/`,
         }}
       />
