@@ -1,6 +1,6 @@
-<center>
+<h1 align="center">
   <img alt="Fastfeet" title="Fastfeet" src=".github/logo.png" width="300px" />
-</center>
+</h1 >
 
 <h3 align="center">Desafio Final Rocketseat</h3>
 
