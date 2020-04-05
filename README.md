@@ -58,7 +58,7 @@
 
 1. Acessar a pasta `mobile` da pasta raiz do projeto e rodar o comando `yarn` para instalar as dependências.
 
-2. Abrir o emulador do Android ou conectar seu dispositivo via USB.
+2. Abrir o emulador do Android ou conecte seu dispositivo via USB.
 
 3. Executar o comando `yarn react-native run-android` para inicializar o projeto no dispositivo.
 
