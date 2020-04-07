@@ -109,7 +109,6 @@ export default function Problem() {
           page={page}
           setPage={setPage}
           disabled={problems.length < 5}
-          noResults={problems.length === 0}
         />
       )}
     </Container>

@@ -90,6 +90,11 @@ export default function Order() {
     }
   }
 
+  function handleCheckProblems() {
+    setPage(1);
+    setFilterProblems(!filterProblems);
+  }
+
   return (
     <Container>
       <HeaderPage
@@ -105,7 +110,7 @@ export default function Order() {
             id="checkbox"
             name="filterProblems"
             checked={filterProblems}
-            onClick={() => setFilterProblems(!filterProblems)}
+            onClick={handleCheckProblems}
           />
           <span>Mostrar somente pedidos com problemas</span>
         </label>
@@ -220,7 +225,6 @@ export default function Order() {
           page={page}
           setPage={setPage}
           disabled={orders.length < 5}
-          noResults={orders.length === 0}
         />
       )}
     </Container>

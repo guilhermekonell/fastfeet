@@ -130,7 +130,6 @@ export default function Deliveryman() {
           page={page}
           setPage={setPage}
           disabled={deliverymans.length < 5}
-          noResults={deliverymans.length === 0}
         />
       )}
     </Container>

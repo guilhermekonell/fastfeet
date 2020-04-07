@@ -119,7 +119,6 @@ export default function Recipient() {
           page={page}
           setPage={setPage}
           disabled={recipients.length < 5}
-          noResults={recipients.length === 0}
         />
       )}
     </Container>
