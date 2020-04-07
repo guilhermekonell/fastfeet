@@ -132,6 +132,7 @@ class DeliveryController {
       where: {
         start_date: { [Op.not]: null },
         end_date: null,
+        canceled_at: null,
       },
     });
 
