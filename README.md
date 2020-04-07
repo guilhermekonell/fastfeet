@@ -24,11 +24,11 @@
 **Requisitos:**
    - Um container no docker para o postgres: 
    
-   `docker run --name fastfeet-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres`
+   `docker run --name fastfeet-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -d postgres`
 
    - Um container no docker para o redis:
 
-   `docker run --name fastfeet-redis -d redis`
+   `docker run --name fastfeet-redis -p 6379:6379 -d redis`
 
 ➡️ **Back-end**
 
@@ -36,13 +36,15 @@
 
 1. Acessar a pasta `backend` da pasta raiz do projeto e rodar o comando `yarn` para instalar as dependências.
 
-2. Executar o comando `yarn sequelize db:migrate` para criar a base de dados do postgres.
+2. Executar o comando `yarn sequelize db:create` para criar a base de dados do postgres.
 
-3. Executar o comando `yarn sequelize db:seed:all` para criar o usuário admin.
+3. Executar o comando `yarn sequelize db:migrate` para criar as tabelas na base de dados.
 
-4. Executar o comando `yarn dev` para inicializar o backend.
+4. Executar o comando `yarn sequelize db:seed:all` para criar o usuário admin.
 
-5. Executar o comando `yarn queue` para inicializar a fila de emails.
+5. Executar o comando `yarn dev` para inicializar o backend.
+
+6. Executar o comando `yarn queue` para inicializar a fila de emails.
 
 ➡️ **Front-end**
 
