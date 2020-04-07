@@ -11,7 +11,6 @@ import Queue from '../../lib/Queue';
 
 class DeliveryProblemsController {
   async index(req, res) {
-    console.log('chegou aqui');
     const { q: productName, page = 1 } = req.query;
 
     const findOptions = {
