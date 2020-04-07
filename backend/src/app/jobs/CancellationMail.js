@@ -10,7 +10,7 @@ class CancellationMail {
   async handle({ data }) {
     const { order } = data;
 
-    await Mail.senddMail({
+    await Mail.sendMail({
       to: `${order.deliveryman.name} <${order.deliveryman.email}>`,
       subject: 'Entrega cancelada',
       template: 'cancellation',
